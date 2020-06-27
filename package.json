@@ -17,10 +17,11 @@
     "typescript": "~3.7.2"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "yarn tailwindcss build ./src/assets/css/tailwind.css -o ./src/index.css && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "build/css": "yarn tailwindcss build ./src/assets/css/tailwind.css -o ./src/index.css"
   },
   "eslintConfig": {
     "extends": "react-app"
