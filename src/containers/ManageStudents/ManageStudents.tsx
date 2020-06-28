@@ -4,7 +4,7 @@ import Spinner from "../../components/UI/Spinner/Spinner";
 import Input from "../../components/UI/Input/Input";
 
 const ManageStudents = () => {
-	const [classes, setClasses] = useState<Array<object>|undefined>();
+	const [classes, setClasses] = useState<Array<object> | undefined>();
 	useEffect(() => {
 		const itemRef = firebase.database().ref("classes");
 		itemRef.on("value", (snapshot) => setClasses(snapshot.val()));
@@ -12,12 +12,12 @@ const ManageStudents = () => {
 
 	const selectOptions: Option[] = [];
 	if (classes) {
-		Object.entries(classes).forEach(([key, value])=>{
+		Object.entries(classes).forEach(([key, value]) => {
 			selectOptions.push({
 				displayName: key,
-				value: value
-			})
-		})
+				value: value,
+			});
+		});
 	}
 
 	return (
@@ -25,7 +25,12 @@ const ManageStudents = () => {
 			{classes ? (
 				<div>
 					Manage Students
-					<Input type="select" name="class" label="Class" options={selectOptions} />
+					<Input
+						type="select"
+						name="class"
+						label="Class"
+						options={selectOptions}
+					/>
 				</div>
 			) : (
 				<Spinner />
