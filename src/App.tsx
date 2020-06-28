@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, Route, Switch } from "react-router-dom";
-import ManageStudents from "./components/ManageStudents/ManageStudents";
+import ManageStudents from "./containers/ManageStudents/ManageStudents";
 import "./App.css";
 
 function App() {
