@@ -14,8 +14,8 @@ const ManageStudents = () => {
 	if (classes) {
 		Object.entries(classes).forEach(([key, value]) => {
 			selectOptions.push({
-				displayName: key,
-				value: value,
+				displayName: String(value),
+				value: key,
 			});
 		});
 	}
@@ -24,7 +24,7 @@ const ManageStudents = () => {
 		<div>
 			{classes ? (
 				<div>
-					Manage Students
+					<h1>Manage classes for {}</h1>
 					<Input
 						type="select"
 						name="class"
