@@ -1,21 +1,27 @@
-import React from "react";
+import React from 'react';
 
 const Input = (props: {
 	type: string;
 	name: string;
 	label: string;
+	value: string;
+	onChangeHandler: Function;
 	placeholder?: string;
 	options?: Option[];
 }) => {
 	let input: JSX.Element | null = null;
 	switch (props.type) {
-		case "select":
+		case 'select':
 			input = (
 				<div className="inline-block relative w-18">
-					<select className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline">
+					<select
+						className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+						value={props.value}
+						onChange={(event) => props.onChangeHandler(event.target.value)}
+					>
 						{props.options?.map((option, i) => (
-							<option key={i} value={option["value"]}>
-								{option["displayName"]}
+							<option key={i} value={option['value']}>
+								{option['displayName']}
 							</option>
 						))}
 					</select>
