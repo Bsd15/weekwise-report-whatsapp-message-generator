@@ -5,10 +5,17 @@ import Input from '../../components/UI/Input/Input';
 
 const ManageStudents = () => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
+	const [selectedClass, setSelectedClass] = useState<string>('');
 	useEffect(() => {
-		const itemRef = firebase.database().ref('classes');
-		itemRef.on('value', (snapshot) => setClasses(snapshot.val()));
+		const classesRef = firebase.database().ref('classes');
+		classesRef.on('value', (snapshot) => setClasses(snapshot.val()));
 	}, []);
+
+	useEffect(() => {
+		if (classes) {
+			setSelectedClass(Object.keys(classes)[0]);
+		}
+	}, [classes]);
 
 	const selectOptions: Option[] = [];
 	if (classes) {
@@ -20,11 +27,7 @@ const ManageStudents = () => {
 		});
 	}
 
-	const [selectedClass, setSelectedClass] = useState(
-		classes ? classes[0]['3'] : ''
-	);
-
-	const onChangeHandler = (value) => {
+	const onChangeHandler = (value: string) => {
 		setSelectedClass(value);
 	};
 
@@ -32,7 +35,7 @@ const ManageStudents = () => {
 		<div>
 			{classes ? (
 				<div>
-					<h1>Manage classes for {selectedClass}</h1>
+					<h1>Manage classes for {classes[selectedClass]}</h1>
 					<Input
 						type="select"
 						name="class"
