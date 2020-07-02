@@ -7,9 +7,9 @@ import Students from '../../components/Students/Students';
 const ManageStudents = () => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
 	const [selectedClass, setSelectedClass] = useState<string>('');
-	const [classStudents, setClassStudents] = useState<Array<object> | string>(
-		'No Students present for the selected class'
-	);
+	const [classStudents, setClassStudents] = useState<
+		Array<string> | undefined
+	>();
 	const [selectOptions, setSelectOptions] = useState<Option[]>([]);
 	const [areClassStudentsLoading, setAreClassStudentsLoading] = useState(false);
 	const [classStudentsError, setClassStudentsError] = useState<
@@ -19,9 +19,12 @@ const ManageStudents = () => {
 		setAreClassStudentsLoading(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
 		classStudentsRef.once('value', (snapshot) => {
-			snapshot.exists()
-				? setClassStudents(snapshot.val())
-				: setClassStudentsError('No Students present for the selected class');
+			if (snapshot.exists()) {
+				setClassStudents(snapshot.val());
+				setClassStudentsError('');
+			} else {
+				setClassStudentsError('No students found for the selected class');
+			}
 			setAreClassStudentsLoading(false);
 		});
 	}, []);
