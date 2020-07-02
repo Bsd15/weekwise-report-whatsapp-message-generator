@@ -2,9 +2,9 @@ import React from 'react'
 
 const Student = (props: {name: string}) => {
     return (
-        <section>
+        <div>
             {props.name}
-        </section>
+        </div>
     )
 }
 
