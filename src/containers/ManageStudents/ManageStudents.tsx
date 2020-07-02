@@ -62,7 +62,7 @@ const ManageStudents = () => {
 		<div>
 			{classes ? (
 				<div>
-					<h1>Manage classes for {classes[selectedClass]}</h1>
+					<h1>Manage students for class {classes[selectedClass]}</h1>
 					<Input
 						type="select"
 						name="class"
