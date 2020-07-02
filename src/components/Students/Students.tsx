@@ -1,9 +1,14 @@
 import React from 'react';
 import Spinner from '../UI/Spinner/Spinner';
 
-const Students = (props: { students: Array<object> | undefined }) => {
+const Students = (props: {
+	students: Array<object> | string;
+	areLoading: boolean;
+}) => {
 	return (
-		<div>{props.students ? JSON.stringify(props.students) : <Spinner />}</div>
+		<div>
+			{!props.areLoading ? JSON.stringify(props.students) : <Spinner />}
+		</div>
 	);
 };
 
