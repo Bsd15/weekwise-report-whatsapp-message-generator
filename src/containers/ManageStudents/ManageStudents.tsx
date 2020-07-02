@@ -11,15 +11,18 @@ const ManageStudents = () => {
 		'No Students present for the selected class'
 	);
 	const [selectOptions, setSelectOptions] = useState<Option[]>([]);
-	const [areClassStudentsLoadind, setAreClassStudentsLoadind] = useState(false);
+	const [areClassStudentsLoading, setAreClassStudentsLoading] = useState(false);
+	const [classStudentsError, setClassStudentsError] = useState<
+		string | undefined
+	>();
 	const fetchClassStudents = useCallback((classNumber) => {
-		setAreClassStudentsLoadind(true);
+		setAreClassStudentsLoading(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
 		classStudentsRef.once('value', (snapshot) => {
 			snapshot.exists()
 				? setClassStudents(snapshot.val())
-				: setClassStudents('No Students present for the selected class');
-			setAreClassStudentsLoadind(false);
+				: setClassStudentsError('No Students present for the selected class');
+			setAreClassStudentsLoading(false);
 		});
 	}, []);
 
@@ -67,7 +70,8 @@ const ManageStudents = () => {
 					/>
 					<Students
 						students={classStudents}
-						areLoading={areClassStudentsLoadind}
+						areLoading={areClassStudentsLoading}
+						error={classStudentsError}
 					/>
 				</div>
 			) : (
