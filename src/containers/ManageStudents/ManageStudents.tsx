@@ -7,17 +7,22 @@ import Students from '../../components/Students/Students';
 const ManageStudents = () => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
 	const [selectedClass, setSelectedClass] = useState<string>('');
-	const [classStudents, setClassStudents] = useState<
-		Array<object> | undefined
-	>();
+	const [classStudents, setClassStudents] = useState<Array<object> | string>(
+		'No Students present for the selected class'
+	);
 	const [selectOptions, setSelectOptions] = useState<Option[]>([]);
+	const [areClassStudentsLoadind, setAreClassStudentsLoadind] = useState(false);
 	const fetchClassStudents = useCallback((classNumber) => {
+		setAreClassStudentsLoadind(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
-		classStudentsRef.once('value', (snapshot) =>
-			setClassStudents(snapshot.val())
-		);
+		classStudentsRef.once('value', (snapshot) => {
+			snapshot.exists()
+				? setClassStudents(snapshot.val())
+				: setClassStudents('No Students present for the selected class');
+			setAreClassStudentsLoadind(false);
+		});
 	}, []);
-	
+
 	useEffect(() => {
 		const classesRef = firebase.database().ref('classes');
 		classesRef.on('value', (snapshot) => setClasses(snapshot.val()));
@@ -25,7 +30,7 @@ const ManageStudents = () => {
 			classesRef.off('value');
 		};
 	}, []);
-	
+
 	useEffect(() => {
 		if (classes) {
 			const newSelectOptions: Option[] = [];
@@ -60,7 +65,10 @@ const ManageStudents = () => {
 						value={selectedClass}
 						onChangeHandler={onChangeHandler}
 					/>
-					<Students students={classStudents} />
+					<Students
+						students={classStudents}
+						areLoading={areClassStudentsLoadind}
+					/>
 				</div>
 			) : (
 				<Spinner />
