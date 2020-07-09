@@ -14,6 +14,8 @@ const ManageStudents = () => {
 		string | undefined
 	>();
 	const [newStudentName, setNewStudentName] = useState('');
+	const [formError, setFormError] = useState('');
+	const [alert, setAlert] = useState('');
 	const fetchClassStudents = useCallback((classNumber) => {
 		setAreClassStudentsLoading(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
@@ -28,11 +30,16 @@ const ManageStudents = () => {
 		});
 	}, []);
 
-	const addClassStudent = useCallback((classNumber, name) => {
-		const newItemRef = firebase.database().ref(classNumber).push();
-		newItemRef.set(name);
-		fetchClassStudents(classNumber);
-	}, []);
+	const addClassStudent = useCallback(
+		(classNumber, name) => {
+			setAlert('');
+			const newItemRef = firebase.database().ref(classNumber).push();
+			newItemRef.set(name);
+			setAlert(`${name} added sucessfully!`);
+			fetchClassStudents(classNumber);
+		},
+		[fetchClassStudents]
+	);
 
 	useEffect(() => {
 		const classesRef = firebase.database().ref('classes');
@@ -63,6 +70,16 @@ const ManageStudents = () => {
 		fetchClassStudents(value);
 	};
 
+	const onNewStudentFormSubmit = (event) => {
+		event.preventDefault();
+		if (newStudentName) {
+			setFormError('');
+			addClassStudent(selectedClass, newStudentName);
+		} else {
+			setFormError('Please enter valid data');
+		}
+	};
+
 	return (
 		<div>
 			{classes ? (
@@ -76,7 +93,7 @@ const ManageStudents = () => {
 						value={selectedClass}
 						onChangeHandler={onChangeHandler}
 					/>
-					<form className="w-full sm:w-1/3">
+					<form className="w-full sm:w-1/3" onSubmit={onNewStudentFormSubmit}>
 						<Input
 							type="text"
 							name="newStudent"
@@ -85,10 +102,16 @@ const ManageStudents = () => {
 							onChangeHandler={(value: string) => setNewStudentName(value)}
 							placeholder="Please enter new student name"
 						/>
+						{formError && (
+							<p className="mt-1 py-2 italic text-red-600 text-xs">
+								{formError}
+							</p>
+						)}
 						<button className="mt-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
 							Add
 						</button>
 					</form>
+					{alert && <p className="my-1 p-3 border-l-2 border-green-600 bg-green-100 text-green-600">{alert}</p>}
 					<Students
 						students={classStudents}
 						areLoading={areClassStudentsLoading}
