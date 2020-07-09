@@ -35,7 +35,6 @@ const ManageStudents = () => {
 	useEffect(() => {
 		const classesRef = firebase.database().ref('classes');
 		classesRef.on('value', (snapshot) => setClasses(snapshot.val()));
-		console.log('useEffect 1');
 		return () => {
 			classesRef.off('value');
 		};
@@ -55,7 +54,6 @@ const ManageStudents = () => {
 			setSelectedClass(defaultClass);
 			fetchClassStudents(defaultClass);
 		}
-		console.log('useEffect 2');
 	}, [classes, fetchClassStudents]);
 
 	const onChangeHandler = (value: string) => {
