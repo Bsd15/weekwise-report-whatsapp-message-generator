@@ -37,7 +37,18 @@ const Input = (props: {
 				</div>
 			);
 			break;
-
+		case 'text':
+			input = (
+				<input
+					type="text"
+					value={props.value}
+					name={props.name}
+					onChange={(event) => props.onChangeHandler(event.target.value)}
+					placeholder={props.placeholder}
+					className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+				/>
+			);
+			break;
 		default:
 			break;
 	}
