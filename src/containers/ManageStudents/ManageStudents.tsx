@@ -7,9 +7,7 @@ import Students from '../../components/Students/Students';
 const ManageStudents = () => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
 	const [selectedClass, setSelectedClass] = useState<string>('');
-	const [classStudents, setClassStudents] = useState<
-		Array<string> | undefined
-	>();
+	const [classStudents, setClassStudents] = useState<object | undefined>();
 	const [selectOptions, setSelectOptions] = useState<Option[]>([]);
 	const [areClassStudentsLoading, setAreClassStudentsLoading] = useState(false);
 	const [classStudentsError, setClassStudentsError] = useState<
@@ -29,9 +27,15 @@ const ManageStudents = () => {
 		});
 	}, []);
 
+	const addClassStudent = useCallback(() => {
+		const newItemRef = firebase.database().ref('3').push();
+		newItemRef.set(Math.floor(Math.random() * 10));
+	}, []);
+
 	useEffect(() => {
 		const classesRef = firebase.database().ref('classes');
 		classesRef.on('value', (snapshot) => setClasses(snapshot.val()));
+		console.log('useEffect 1');
 		return () => {
 			classesRef.off('value');
 		};
@@ -51,6 +55,7 @@ const ManageStudents = () => {
 			setSelectedClass(defaultClass);
 			fetchClassStudents(defaultClass);
 		}
+		console.log('useEffect 2');
 	}, [classes, fetchClassStudents]);
 
 	const onChangeHandler = (value: string) => {
@@ -76,6 +81,7 @@ const ManageStudents = () => {
 						areLoading={areClassStudentsLoading}
 						error={classStudentsError}
 					/>
+					<button onClick={addClassStudent}>Add</button>
 				</div>
 			) : (
 				<Spinner />
