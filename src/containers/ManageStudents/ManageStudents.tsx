@@ -13,6 +13,7 @@ const ManageStudents = () => {
 	const [classStudentsError, setClassStudentsError] = useState<
 		string | undefined
 	>();
+	const [newStudentName, setNewStudentName] = useState('');
 	const fetchClassStudents = useCallback((classNumber) => {
 		setAreClassStudentsLoading(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
@@ -27,9 +28,10 @@ const ManageStudents = () => {
 		});
 	}, []);
 
-	const addClassStudent = useCallback(() => {
-		const newItemRef = firebase.database().ref('3').push();
-		newItemRef.set(Math.floor(Math.random() * 10));
+	const addClassStudent = useCallback((classNumber, name) => {
+		const newItemRef = firebase.database().ref(classNumber).push();
+		newItemRef.set(name);
+		fetchClassStudents(classNumber);
 	}, []);
 
 	useEffect(() => {
@@ -79,7 +81,16 @@ const ManageStudents = () => {
 						areLoading={areClassStudentsLoading}
 						error={classStudentsError}
 					/>
-					<button onClick={addClassStudent}>Add</button>
+					<form>
+						<Input
+							type="text"
+							name="newStudent"
+							label="New Student"
+							value={newStudentName}
+							onChangeHandler={(value: string) => setNewStudentName(value)}
+						/>
+						<button>Add</button>
+					</form>
 				</div>
 			) : (
 				<Spinner />
