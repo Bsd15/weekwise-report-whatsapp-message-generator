@@ -3,7 +3,7 @@ import Spinner from '../UI/Spinner/Spinner';
 import Student from './Student/Student';
 
 const Students = (props: {
-	students: Array<string> | undefined;
+	students: object | undefined;
 	areLoading: boolean;
 	error: string | undefined;
 }) => {
@@ -11,9 +11,11 @@ const Students = (props: {
 	if (props.error) {
 		students = <p>{props.error}</p>;
 	} else {
-		students = props.students?.map((studentName, i) => (
-			<Student key={i} name={studentName} />
-		));
+		if (props.students) {
+			students = Object.entries(props.students).map(([key, value]) => (
+				<Student key={key} name={value} />
+			));
+		}
 	}
 	return <section>{props.areLoading ? <Spinner /> : students}</section>;
 };
