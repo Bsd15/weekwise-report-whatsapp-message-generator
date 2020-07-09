@@ -76,21 +76,24 @@ const ManageStudents = () => {
 						value={selectedClass}
 						onChangeHandler={onChangeHandler}
 					/>
-					<Students
-						students={classStudents}
-						areLoading={areClassStudentsLoading}
-						error={classStudentsError}
-					/>
-					<form>
+					<form className="w-full sm:w-1/3">
 						<Input
 							type="text"
 							name="newStudent"
 							label="New Student"
 							value={newStudentName}
 							onChangeHandler={(value: string) => setNewStudentName(value)}
+							placeholder="Please enter new student name"
 						/>
-						<button>Add</button>
+						<button className="mt-2 bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded">
+							Add
+						</button>
 					</form>
+					<Students
+						students={classStudents}
+						areLoading={areClassStudentsLoading}
+						error={classStudentsError}
+					/>
 				</div>
 			) : (
 				<Spinner />
