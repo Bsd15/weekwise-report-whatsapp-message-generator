@@ -95,10 +95,11 @@ const ManageStudents = () => {
 	};
 
 	return (
-		<div>
+		<>
 			{classes ? (
 				<div className="mx-auto">
 					<h1 className="text-center font-bold text-2xl">Manage students for class {classes[selectedClass]}</h1>
+					<div className="mx-auto">
 					<Input
 						type="select"
 						name="class"
@@ -107,6 +108,7 @@ const ManageStudents = () => {
 						value={selectedClass}
 						onChangeHandler={onChangeHandler}
 					/>
+					</div>
 					<form className="w-full" onSubmit={onNewStudentFormSubmit}>
 						<Input
 							type="text"
@@ -142,7 +144,7 @@ const ManageStudents = () => {
 			) : (
 				<Spinner />
 			)}
-		</div>
+		</>
 	);
 };
 
