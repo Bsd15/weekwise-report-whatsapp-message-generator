@@ -3,7 +3,6 @@ import firebase from '../../firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
 import Students from '../../components/Students/Students';
-import withAlert from '../../hoc/withAlert/withAlert';
 
 const ManageStudents = () => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
@@ -151,4 +150,4 @@ const ManageStudents = () => {
 	);
 };
 
-export default withAlert(ManageStudents);
+export default ManageStudents;
