@@ -26,7 +26,7 @@ function App() {
 					Manage Students
 				</NavLink>
 			</section>
-			<section className="container px-2 w-full sm:w-1/2">
+			<section id="content" className="container mt-2 px-2 w-full sm:w-1/2">
 				<Switch>
 					<Route path="/manageStudents">
 						<ManageStudents />
