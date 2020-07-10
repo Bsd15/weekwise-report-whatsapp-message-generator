@@ -1,6 +1,6 @@
 import React from 'react';
 
-const withAlert = (WrappedComponent: React.ComponentType) => {
+const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 	const ComponentWithAlert = (props) => {
 		return (
 			<>
