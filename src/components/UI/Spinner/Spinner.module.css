@@ -1,6 +1,6 @@
 .skChase {
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 100%;
     position: relative;
     animation: skChase 2.5s infinite linear both;
   }
