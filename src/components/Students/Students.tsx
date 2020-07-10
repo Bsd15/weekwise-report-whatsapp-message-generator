@@ -25,4 +25,4 @@ const Students = (props: {
 	return <section>{props.areLoading ? <Spinner /> : students}</section>;
 };
 
-export default Students;
+export default React.memo(Students);
