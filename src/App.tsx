@@ -6,9 +6,25 @@ import './App.css';
 function App() {
 	return (
 		<section className="container">
-			<section id="nav-links" className="bg-blue-100 w-full sm:w-1/2 flex justify-around px-3 py-3 sm:mx-auto">
-				<NavLink to="/">Home</NavLink>
-				<NavLink to="/manageStudents">Manage Students</NavLink>
+			<section
+				id="nav-links"
+				className="w-full sm:w-1/2 grid grid-cols-2 px-3 py-3 sm:mx-auto"
+			>
+				<NavLink
+					exact
+					to="/"
+					className="mx-auto p-3 hover:font-bold bg-gray-300 text-gray-800 hover:text-white hover:bg-blue-300"
+					activeClassName="link-active"
+				>
+					Home
+				</NavLink>
+				<NavLink
+					to="/manageStudents"
+					className="mx-auto p-3 hover:font-bold bg-gray-300 text-gray-800 hover:text-white hover:bg-blue-300"
+					activeClassName="link-active"
+				>
+					Manage Students
+				</NavLink>
 			</section>
 			<Switch>
 				<Route path="/manageStudents">
