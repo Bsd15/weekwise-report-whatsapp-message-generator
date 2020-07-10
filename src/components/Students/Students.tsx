@@ -22,7 +22,17 @@ const Students = (props: {
 			));
 		}
 	}
-	return <section>{props.areLoading ? <Spinner /> : students}</section>;
+	return (
+		<section>
+			{props.areLoading ? (
+				<div className="w-16 h-16 mx-auto mt-5">
+					<Spinner />
+				</div>
+			) : (
+				students
+			)}
+		</section>
+	);
 };
 
 export default React.memo(Students);
