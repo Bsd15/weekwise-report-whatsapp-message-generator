@@ -2,7 +2,7 @@ import React from 'react';
 
 const Student = (props: { name: string; onDeleteHandler: () => void }) => {
 	return (
-		<div className="flex justify-between px-3 py-2 w-full sm:w-1/3 border-b">
+		<div className="flex justify-between px-3 py-2 w-full border-b">
 			<div>{props.name}</div>
 			<div className="w-6 h-6" onClick={props.onDeleteHandler}>
 				<svg

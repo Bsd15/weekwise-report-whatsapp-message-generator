@@ -107,7 +107,7 @@ const ManageStudents = () => {
 						value={selectedClass}
 						onChangeHandler={onChangeHandler}
 					/>
-					<form className="w-full sm:w-1/3" onSubmit={onNewStudentFormSubmit}>
+					<form className="w-full" onSubmit={onNewStudentFormSubmit}>
 						<Input
 							type="text"
 							name="newStudent"
