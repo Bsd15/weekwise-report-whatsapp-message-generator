@@ -5,8 +5,11 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 		return (
 			<>
 				<WrappedComponent {...props} />
-				<article className="fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 flex justify-center">
-					<section className="bg-blue-500 px-3 py-2 text-center">
+				<article className="fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 flex-col justify-start">
+					<section
+						className="bg-blue-500 px-3 py-2 text-center overflow-y-auto"
+						style={{ maxHeight: '10rem' }}
+					>
 						Lorem ipsum, dolor sit amet consectetur adipisicing elit. Esse quasi
 						delectus inventore eum ea! Velit culpa ducimus aut nisi maiores
 						laboriosam assumenda necessitatibus, consequatur et labore, incidunt
@@ -43,6 +46,7 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 						delectus voluptatum omnis impedit quaerat magnam eius adipisci
 						aliquid perferendis.
 					</section>
+					<div className="self-center">Close</div>
 				</article>
 			</>
 		);
