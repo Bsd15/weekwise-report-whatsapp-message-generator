@@ -6,7 +6,7 @@ import './App.css';
 function App() {
 	return (
 		<section className="container">
-			<section id="nav-links" className="bg-blue-100 w-full sm:w-1/3 flex justify-around px-3 py-3 sm:mx-auto">
+			<section id="nav-links" className="bg-blue-100 w-full sm:w-1/2 flex justify-around px-3 py-3 sm:mx-auto">
 				<NavLink to="/">Home</NavLink>
 				<NavLink to="/manageStudents">Manage Students</NavLink>
 			</section>
