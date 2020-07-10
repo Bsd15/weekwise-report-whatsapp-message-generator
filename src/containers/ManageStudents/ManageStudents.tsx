@@ -41,6 +41,19 @@ const ManageStudents = () => {
 		[fetchClassStudents]
 	);
 
+	const deleteStudent = useCallback(
+		(classNumber, id, name) => {
+			firebase
+				.database()
+				.ref(`${classNumber}/${id}`)
+				.remove()
+				.then(() => setAlert(`${name} removed sucessfully`))
+				.catch((error) => setAlert(`${name} could not be removed. ${error}`));
+			fetchClassStudents(classNumber);
+		},
+		[fetchClassStudents]
+	);
+
 	useEffect(() => {
 		const classesRef = firebase.database().ref('classes');
 		classesRef.on('value', (snapshot) => setClasses(snapshot.val()));
@@ -111,11 +124,18 @@ const ManageStudents = () => {
 							Add
 						</button>
 					</form>
-					{alert && <p className="my-1 p-3 border-l-2 border-green-600 bg-green-100 text-green-600">{alert}</p>}
+					{alert && (
+						<p className="my-1 p-3 border-l-2 border-green-600 bg-green-100 text-green-600">
+							{alert}
+						</p>
+					)}
 					<Students
 						students={classStudents}
 						areLoading={areClassStudentsLoading}
 						error={classStudentsError}
+						onDeleteHandler={(id, name) =>
+							deleteStudent(selectedClass, id, name)
+						}
 					/>
 				</div>
 			) : (
