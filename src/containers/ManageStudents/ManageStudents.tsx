@@ -91,6 +91,7 @@ const ManageStudents = () => {
 		} else {
 			setFormError('Please enter valid data');
 		}
+		setNewStudentName('');
 	};
 
 	return (
