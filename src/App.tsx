@@ -26,11 +26,13 @@ function App() {
 					Manage Students
 				</NavLink>
 			</section>
-			<Switch>
-				<Route path="/manageStudents">
-					<ManageStudents />
-				</Route>
-			</Switch>
+			<section className="container px-2 w-full sm:w-1/2">
+				<Switch>
+					<Route path="/manageStudents">
+						<ManageStudents />
+					</Route>
+				</Switch>
+			</section>
 		</section>
 	);
 }
