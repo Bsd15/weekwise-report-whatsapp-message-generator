@@ -6,6 +6,7 @@ const Students = (props: {
 	students: object | undefined;
 	areLoading: boolean;
 	error: string | undefined;
+	onDeleteHandler: (id: string, name: string) => void;
 }) => {
 	let students: any;
 	if (props.error) {
@@ -13,7 +14,11 @@ const Students = (props: {
 	} else {
 		if (props.students) {
 			students = Object.entries(props.students).map(([key, value]) => (
-				<Student key={key} name={value} />
+				<Student
+					key={key}
+					name={value}
+					onDeleteHandler={() => props.onDeleteHandler(key, value)}
+				/>
 			));
 		}
 	}
