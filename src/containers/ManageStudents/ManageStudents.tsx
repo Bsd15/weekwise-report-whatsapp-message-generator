@@ -142,7 +142,9 @@ const ManageStudents = () => {
 					/>
 				</div>
 			) : (
+			<div className="w-16 h-16 mx-auto mt-12">
 				<Spinner />
+			</div>
 			)}
 		</>
 	);
