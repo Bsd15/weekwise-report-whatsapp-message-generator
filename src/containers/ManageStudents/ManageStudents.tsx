@@ -97,8 +97,8 @@ const ManageStudents = () => {
 	return (
 		<div>
 			{classes ? (
-				<div>
-					<h1>Manage students for class {classes[selectedClass]}</h1>
+				<div className="mx-auto">
+					<h1 className="text-center font-bold text-2xl">Manage students for class {classes[selectedClass]}</h1>
 					<Input
 						type="select"
 						name="class"
