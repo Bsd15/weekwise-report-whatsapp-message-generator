@@ -2,7 +2,6 @@ import React from 'react';
 import { NavLink, Route, Switch } from 'react-router-dom';
 import ManageStudents from './containers/ManageStudents/ManageStudents';
 import './App.css';
-import withAlert from './hoc/withAlert/withAlert';
 
 function App() {
 	return (
@@ -38,4 +37,4 @@ function App() {
 	);
 }
 
-export default withAlert(App);
+export default App;
