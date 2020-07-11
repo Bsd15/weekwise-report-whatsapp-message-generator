@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import classes from './withAlert.module.css';
-enum AlertType {
+
+export enum AlertType {
 	Primary = 'border-blue-500',
 	Danger = 'border-red-600',
 	Info = 'border-yellow-500',
