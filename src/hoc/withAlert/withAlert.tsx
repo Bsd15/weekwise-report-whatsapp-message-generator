@@ -10,7 +10,7 @@ export enum AlertType {
 
 const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 	const ComponentWithAlert = (props) => {
-		const [alertBoxShowClass, setAlertBoxShowClass] = useState('');
+		const [show, setShow] = useState(false);
 		const [alertHeading, setAlertHeading] = useState('');
 		const [alertMessage, setAlertMessage] = useState('');
 		const [alertBoxBorderClass, setalertBoxBorderClass] = useState(
@@ -18,11 +18,11 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 		);
 
 		const showAlertBox = useCallback(() => {
-			setAlertBoxShowClass(classes.alertBoxShow);
+			setShow(true);
 		}, []);
 
 		const hideAlertBox = useCallback(() => {
-			setAlertBoxShowClass('');
+			setShow(false);
 		}, []);
 
 		const showAlert = useCallback(
@@ -41,7 +41,9 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 			<>
 				<WrappedComponent {...props} showAlert={showAlert} />
 				<article
-					className={`fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 p-2 bg-white shadow-2xl border-t-8 ${alertBoxBorderClass} ${classes.alertBox} ${alertBoxShowClass}`}
+					className={`fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 p-2 bg-white shadow-2xl border-t-8 ${alertBoxBorderClass} ${
+						classes.alertBox
+					} ${show ? classes.alertBoxShow : ''}`}
 				>
 					<section id="content" className="flex flex-col items-center">
 						<section id="message" className="h-16 overflow-y-auto">
