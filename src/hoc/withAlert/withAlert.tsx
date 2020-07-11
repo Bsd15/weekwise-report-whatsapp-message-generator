@@ -37,9 +37,34 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 			[showAlertBox, setAlertMessage, setalertBoxBorderClass, setAlertHeading]
 		);
 
+		const showTemporaryAlert = useCallback(
+			(message: string, alertType: AlertType, timeout = 5000, heading = '') => {
+				if (message) {
+					setAlertMessage(message);
+					setalertBoxBorderClass(alertType);
+					setAlertHeading(heading);
+					showAlertBox();
+					setTimeout(() => {
+						hideAlertBox();
+					}, timeout);
+				}
+			},
+			[
+				showAlertBox,
+				setAlertMessage,
+				setalertBoxBorderClass,
+				setAlertHeading,
+				hideAlertBox,
+			]
+		);
+
 		return (
 			<>
-				<WrappedComponent {...props} showAlert={showAlert} />
+				<WrappedComponent
+					{...props}
+					showAlert={showAlert}
+					showTemporaryAlert={showTemporaryAlert}
+				/>
 				<article
 					className={`fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 p-2 bg-white shadow-2xl border-t-8 ${alertBoxBorderClass} ${
 						classes.alertBox
