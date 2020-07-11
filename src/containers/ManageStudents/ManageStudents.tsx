@@ -3,8 +3,11 @@ import firebase from '../../firebase';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Input from '../../components/UI/Input/Input';
 import Students from '../../components/Students/Students';
+import withAlert, { AlertType } from '../../hoc/withAlert/withAlert';
 
-const ManageStudents = () => {
+const ManageStudents = (props: {
+	showAlert: (message: string, alertType: AlertType, heading?: string) => void;
+}) => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
 	const [selectedClass, setSelectedClass] = useState<string>('');
 	const [classStudents, setClassStudents] = useState<object | undefined>();
@@ -15,7 +18,9 @@ const ManageStudents = () => {
 	>();
 	const [newStudentName, setNewStudentName] = useState('');
 	const [formError, setFormError] = useState('');
-	const [alert, setAlert] = useState('');
+
+	const showAlert = props.showAlert;
+
 	const fetchClassStudents = useCallback((classNumber) => {
 		setAreClassStudentsLoading(true);
 		const classStudentsRef = firebase.database().ref(classNumber);
@@ -32,13 +37,12 @@ const ManageStudents = () => {
 
 	const addClassStudent = useCallback(
 		(classNumber, name) => {
-			setAlert('');
 			const newItemRef = firebase.database().ref(classNumber).push();
 			newItemRef.set(name);
-			setAlert(`${name} added sucessfully!`);
+			showAlert(`${name} added sucessfully!`, AlertType.Success);
 			fetchClassStudents(classNumber);
 		},
-		[fetchClassStudents]
+		[fetchClassStudents, showAlert]
 	);
 
 	const deleteStudent = useCallback(
@@ -47,11 +51,13 @@ const ManageStudents = () => {
 				.database()
 				.ref(`${classNumber}/${id}`)
 				.remove()
-				.then(() => setAlert(`${name} removed sucessfully`))
-				.catch((error) => setAlert(`${name} could not be removed. ${error}`));
+				.then(() => showAlert(`${name} removed sucessfully`, AlertType.Info))
+				.catch((error) =>
+					showAlert(`${name} could not be removed. ${error}`, AlertType.Danger)
+				);
 			fetchClassStudents(classNumber);
 		},
-		[fetchClassStudents]
+		[fetchClassStudents, showAlert]
 	);
 
 	useEffect(() => {
@@ -98,16 +104,18 @@ const ManageStudents = () => {
 		<>
 			{classes ? (
 				<div className="mx-auto">
-					<h1 className="text-center font-bold text-2xl">Manage students for class {classes[selectedClass]}</h1>
+					<h1 className="text-center font-bold text-2xl">
+						Manage students for class {classes[selectedClass]}
+					</h1>
 					<div className="w-20 mx-auto">
-					<Input
-						type="select"
-						name="class"
-						label="Class"
-						options={selectOptions}
-						value={selectedClass}
-						onChangeHandler={onChangeHandler}
-					/>
+						<Input
+							type="select"
+							name="class"
+							label="Class"
+							options={selectOptions}
+							value={selectedClass}
+							onChangeHandler={onChangeHandler}
+						/>
 					</div>
 					<form className="w-full" onSubmit={onNewStudentFormSubmit}>
 						<Input
@@ -127,11 +135,7 @@ const ManageStudents = () => {
 							Add
 						</button>
 					</form>
-					{alert && (
-						<p className="my-1 p-3 border-l-2 border-green-600 bg-green-100 text-green-600">
-							{alert}
-						</p>
-					)}
+
 					<Students
 						students={classStudents}
 						areLoading={areClassStudentsLoading}
@@ -142,12 +146,12 @@ const ManageStudents = () => {
 					/>
 				</div>
 			) : (
-			<div className="w-16 h-16 mx-auto mt-12">
-				<Spinner />
-			</div>
+				<div className="w-16 h-16 mx-auto mt-12">
+					<Spinner />
+				</div>
 			)}
 		</>
 	);
 };
 
-export default ManageStudents;
+export default withAlert(ManageStudents);
