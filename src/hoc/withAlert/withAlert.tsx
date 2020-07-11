@@ -11,6 +11,7 @@ export enum AlertType {
 const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 	const ComponentWithAlert = (props) => {
 		const [alertBoxShowClass, setAlertBoxShowClass] = useState('');
+		const [alertHeading, setAlertHeading] = useState('');
 		const [alertMessage, setAlertMessage] = useState('');
 		const [alertBoxBorderClass, setalertBoxBorderClass] = useState(
 			AlertType.Primary
@@ -24,10 +25,11 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 			setAlertBoxShowClass('');
 		}, []);
 
-		const showAlert = (message: string, alertType: AlertType) => {
+		const showAlert = (message: string, alertType: AlertType, heading = '') => {
 			if (message) {
 				setAlertMessage(message);
 				setalertBoxBorderClass(alertType);
+				setAlertHeading(heading);
 				showAlertBox();
 			}
 		};
@@ -35,17 +37,14 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 		return (
 			<>
 				<WrappedComponent {...props} />
-				<button
-					className="bg-blue-500 p-3"
-					onClick={() => showAlert('Test alert', AlertType.Success)}
-				>
-					Trigger animation
-				</button>
 				<article
 					className={`fixed bottom-0 left-0 right-0 mx-auto container w-full lg:w-1/2 p-2 bg-white shadow-2xl border-t-8 ${alertBoxBorderClass} ${classes.alertBox} ${alertBoxShowClass}`}
 				>
 					<section id="content" className="flex flex-col items-center">
 						<section id="message" className="h-16 overflow-y-auto">
+							{alertHeading && (
+								<h1 className="font-bold text-lg">{alertHeading}</h1>
+							)}
 							<p>{alertMessage}</p>
 						</section>
 						<section id="close">
