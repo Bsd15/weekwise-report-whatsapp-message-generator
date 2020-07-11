@@ -25,14 +25,17 @@ const withAlert = (WrappedComponent: React.ComponentType<any>) => {
 			setAlertBoxShowClass('');
 		}, []);
 
-		const showAlert = (message: string, alertType: AlertType, heading = '') => {
-			if (message) {
-				setAlertMessage(message);
-				setalertBoxBorderClass(alertType);
-				setAlertHeading(heading);
-				showAlertBox();
-			}
-		};
+		const showAlert = useCallback(
+			(message: string, alertType: AlertType, heading = '') => {
+				if (message) {
+					setAlertMessage(message);
+					setalertBoxBorderClass(alertType);
+					setAlertHeading(heading);
+					showAlertBox();
+				}
+			},
+			[showAlertBox, setAlertMessage, setalertBoxBorderClass, setAlertHeading]
+		);
 
 		return (
 			<>
