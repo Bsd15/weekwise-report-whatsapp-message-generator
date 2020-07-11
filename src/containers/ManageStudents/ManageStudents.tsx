@@ -7,6 +7,12 @@ import withAlert, { AlertType } from '../../hoc/withAlert/withAlert';
 
 const ManageStudents = (props: {
 	showAlert: (message: string, alertType: AlertType, heading?: string) => void;
+	showTemporaryAlert: (
+		message: string,
+		alertType: AlertType,
+		timeout?: number,
+		heading?: string
+	) => void;
 }) => {
 	const [classes, setClasses] = useState<Array<object> | undefined>();
 	const [selectedClass, setSelectedClass] = useState<string>('');
@@ -19,7 +25,7 @@ const ManageStudents = (props: {
 	const [newStudentName, setNewStudentName] = useState('');
 	const [formError, setFormError] = useState('');
 
-	const showAlert = props.showAlert;
+	const showTemporaryAlert = props.showTemporaryAlert;
 
 	const fetchClassStudents = useCallback((classNumber) => {
 		setAreClassStudentsLoading(true);
@@ -39,10 +45,11 @@ const ManageStudents = (props: {
 		(classNumber, name) => {
 			const newItemRef = firebase.database().ref(classNumber).push();
 			newItemRef.set(name);
-			showAlert(`${name} added sucessfully!`, AlertType.Success);
+			// showAlert(`${name} added sucessfully!`, AlertType.Success);
+			showTemporaryAlert(`${name} added sucessfully!`, AlertType.Success);
 			fetchClassStudents(classNumber);
 		},
-		[fetchClassStudents, showAlert]
+		[fetchClassStudents, showTemporaryAlert]
 	);
 
 	const deleteStudent = useCallback(
@@ -51,13 +58,18 @@ const ManageStudents = (props: {
 				.database()
 				.ref(`${classNumber}/${id}`)
 				.remove()
-				.then(() => showAlert(`${name} removed sucessfully`, AlertType.Info))
+				.then(() =>
+					showTemporaryAlert(`${name} removed sucessfully`, AlertType.Info)
+				)
 				.catch((error) =>
-					showAlert(`${name} could not be removed. ${error}`, AlertType.Danger)
+					showTemporaryAlert(
+						`${name} could not be removed. ${error}`,
+						AlertType.Danger
+					)
 				);
 			fetchClassStudents(classNumber);
 		},
-		[fetchClassStudents, showAlert]
+		[fetchClassStudents, showTemporaryAlert]
 	);
 
 	useEffect(() => {
